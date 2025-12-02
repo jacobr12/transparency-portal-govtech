@@ -17,70 +17,47 @@ A lightweight web application that displays "model cards" or algorithm summaries
 
 ```
 .
-├── backend/          # Flask API server
-│   ├── app.py       # Main Flask application
-│   └── requirements.txt
-├── frontend/        # React application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ModelCard.js
-│   │   │   ├── ModelCardDetail.js
-│   │   │   ├── InteractiveDemo.js
-│   │   │   ├── SearchBar.js
-│   │   │   └── FilterPanel.js
-│   │   ├── App.js
-│   │   ├── index.js
-│   │   └── index.css
-│   ├── public/
-│   └── package.json
+├── app/                    # Next.js App Router
+│   ├── api/                # API routes (backend)
+│   │   ├── models/         # Model endpoints
+│   │   ├── agencies/       # Agencies endpoint
+│   │   └── services/       # Services endpoint
+│   ├── page.js             # Main page component
+│   ├── layout.js           # Root layout
+│   └── globals.css         # Global styles
+├── components/              # React components
+│   ├── ModelCard.js
+│   ├── ModelCardDetail.js
+│   ├── InteractiveDemo.js
+│   ├── SearchBar.js
+│   └── FilterPanel.js
+├── package.json            # Dependencies
+├── next.config.js          # Next.js configuration
+├── tailwind.config.js      # Tailwind CSS configuration
 └── README.md
 ```
 
 ## Setup Instructions
 
-### Backend Setup
+This is a Next.js application with integrated API routes. Everything runs in a single process.
 
-1. Navigate to the backend directory:
-```bash
-cd backend
-```
-
-2. Create a virtual environment (recommended):
-```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-4. Run the Flask server:
-```bash
-python app.py
-```
-
-The API will be available at `http://localhost:5000`
-
-### Frontend Setup
-
-1. Navigate to the frontend directory:
-```bash
-cd frontend
-```
-
-2. Install dependencies:
+1. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Start the development server:
+2. Start the development server:
 ```bash
-npm start
+npm run dev
 ```
 
-The application will open at `http://localhost:3000`
+The application will be available at `http://localhost:3000`
+
+The API routes are automatically available at:
+- `http://localhost:3000/api/models`
+- `http://localhost:3000/api/agencies`
+- `http://localhost:3000/api/services`
+- etc.
 
 ## API Endpoints
 
@@ -125,10 +102,9 @@ To deploy this application and share it with others, see **[DEPLOYMENT.md](DEPLO
 
 **Quick summary**: 
 1. Push code to GitHub
-2. Deploy backend on Render/Railway (free)
-3. Deploy frontend on Render/Netlify/Vercel (free)
-4. Set `REACT_APP_API_URL` environment variable to your backend URL
-5. Share your frontend URL!
+2. Deploy on Vercel (recommended for Next.js) or Render/Railway
+3. Since it's a single Next.js app, no separate backend deployment needed!
+4. Share your deployment URL!
 
 ## Future Enhancements
 

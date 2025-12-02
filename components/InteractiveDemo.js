@@ -1,6 +1,6 @@
-import React from 'react';
+'use client';
 
-function InteractiveDemo({ model, inputs, outputs, loading, onInputChange }) {
+export default function InteractiveDemo({ model, inputs, outputs, loading, onInputChange }) {
   const renderInput = (input) => {
     if (input.type === 'number') {
       return (
@@ -156,6 +156,4 @@ function InteractiveDemo({ model, inputs, outputs, loading, onInputChange }) {
     </div>
   );
 }
-
-export default InteractiveDemo;
 

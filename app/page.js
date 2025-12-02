@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ModelCard from './components/ModelCard';
-import SearchBar from './components/SearchBar';
-import FilterPanel from './components/FilterPanel';
+'use client';
 
-// API URL configuration
-// In production, set REACT_APP_API_URL environment variable to your backend URL
-// Example: REACT_APP_API_URL=https://your-backend.onrender.com/api
-const API_BASE_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? window.location.origin + '/api'  // Assumes backend on same domain
-    : 'http://127.0.0.1:5000/api');   // Development default
+import { useState, useEffect } from 'react';
+import ModelCard from '../components/ModelCard';
+import SearchBar from '../components/SearchBar';
+import FilterPanel from '../components/FilterPanel';
 
-function App() {
+export default function Home() {
   const [models, setModels] = useState([]);
   const [filteredModels, setFilteredModels] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,22 +29,23 @@ function App() {
   const fetchModels = async () => {
     try {
       setError(null);
-      const response = await axios.get(`${API_BASE_URL}/models`);
-      setModels(response.data);
-      setFilteredModels(response.data);
+      const response = await fetch('/api/models');
+      const data = await response.json();
+      setModels(data);
+      setFilteredModels(data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching models:', error);
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
-      setError(`Unable to connect to backend API. Make sure the Flask server is running on ${apiUrl}`);
+      setError('Unable to connect to backend API. Make sure the server is running.');
       setLoading(false);
     }
   };
 
   const fetchAgencies = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/agencies`);
-      setAgencies(response.data);
+      const response = await fetch('/api/agencies');
+      const data = await response.json();
+      setAgencies(data);
     } catch (error) {
       console.error('Error fetching agencies:', error);
     }
@@ -59,8 +53,9 @@ function App() {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/services`);
-      setServices(response.data);
+      const response = await fetch('/api/services');
+      const data = await response.json();
+      setServices(data);
     } catch (error) {
       console.error('Error fetching services:', error);
     }
@@ -74,12 +69,12 @@ function App() {
       if (selectedAgency) params.append('agency', selectedAgency);
       if (selectedService) params.append('service', selectedService);
 
-      const response = await axios.get(`${API_BASE_URL}/models?${params.toString()}`);
-      setFilteredModels(response.data);
+      const response = await fetch(`/api/models?${params.toString()}`);
+      const data = await response.json();
+      setFilteredModels(data);
     } catch (error) {
       console.error('Error filtering models:', error);
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
-      setError(`Unable to connect to backend API. Make sure the Flask server is running on ${apiUrl}`);
+      setError('Unable to connect to backend API. Make sure the server is running.');
     }
   };
 
@@ -134,12 +129,9 @@ function App() {
           </div>
         ) : error ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">Please start the backend server to view model cards.</p>
+            <p className="text-gray-600 text-lg">Please start the server to view model cards.</p>
             <p className="text-gray-500 text-sm mt-2">
-              Run: <code className="bg-gray-100 px-2 py-1 rounded">cd backend && python app.py</code>
-            </p>
-            <p className="text-gray-500 text-xs mt-1">
-              Backend should be running on: {API_BASE_URL.replace('/api', '')}
+              Run: <code className="bg-gray-100 px-2 py-1 rounded">npm run dev</code>
             </p>
           </div>
         ) : filteredModels.length === 0 ? (
@@ -166,6 +158,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
 

@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
 import InteractiveDemo from './InteractiveDemo';
 
-// Use same API URL as App.js
-const API_BASE_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? window.location.origin + '/api'
-    : 'http://127.0.0.1:5000/api');
-
-function ModelCardDetail({ model, onClose }) {
+export default function ModelCardDetail({ model, onClose }) {
   const [inputs, setInputs] = useState({});
   const [outputs, setOutputs] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -16,11 +11,15 @@ function ModelCardDetail({ model, onClose }) {
   const predict = useCallback(async (inputValues) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/models/${model.id}/predict`,
-        { inputs: inputValues }
-      );
-      setOutputs(response.data);
+      const response = await fetch(`/api/models/${model.id}/predict`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ inputs: inputValues }),
+      });
+      const data = await response.json();
+      setOutputs(data);
     } catch (error) {
       console.error('Error predicting:', error);
     } finally {
@@ -174,6 +173,4 @@ function ModelCardDetail({ model, onClose }) {
     </div>
   );
 }
-
-export default ModelCardDetail;
 

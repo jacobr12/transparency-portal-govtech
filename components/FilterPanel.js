@@ -1,6 +1,6 @@
-import React from 'react';
+'use client';
 
-function FilterPanel({
+export default function FilterPanel({
   agencies,
   services,
   selectedAgency,
@@ -47,6 +47,4 @@ function FilterPanel({
     </div>
   );
 }
-
-export default FilterPanel;
 

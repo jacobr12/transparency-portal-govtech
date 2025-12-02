@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+'use client';
+
+import { useState } from 'react';
 import ModelCardDetail from './ModelCardDetail';
 
-function ModelCard({ model }) {
+export default function ModelCard({ model }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -42,6 +44,4 @@ function ModelCard({ model }) {
     </>
   );
 }
-
-export default ModelCard;
 

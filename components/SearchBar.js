@@ -1,6 +1,6 @@
-import React from 'react';
+'use client';
 
-function SearchBar({ searchQuery, onSearchChange }) {
+export default function SearchBar({ searchQuery, onSearchChange }) {
   return (
     <div className="relative">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -28,6 +28,4 @@ function SearchBar({ searchQuery, onSearchChange }) {
     </div>
   );
 }
-
-export default SearchBar;
 
